@@ -212,6 +212,8 @@ export const RegisterWorkerScreen: React.FC = () => {
 
   // Final Registration Submission
   const handleFinalSubmit = async () => {
+    if (isSubmitting) return;
+
     if (!consentAccepted) {
       setErrorMessage('Worker biometric consent is mandatory for registration.');
       return;
@@ -222,7 +224,7 @@ export const RegisterWorkerScreen: React.FC = () => {
 
     try {
       const created = await registerWorker({
-        name: fullName,
+        name: fullName.trim(),
         age: Number(age) || 30,
         weight: Number(weight) || 68,
         gender,
@@ -236,16 +238,27 @@ export const RegisterWorkerScreen: React.FC = () => {
         notes: notes || `Contractor: ${contractorMeta}`,
       });
 
+      if (!created || (!created.id && !(created as any).worker_id)) {
+        throw new Error('Registration failed: Worker ID was not returned by server.');
+      }
+
       setRegisteredResult(created);
-      setCurrentStep(5); // Success state
+      setCurrentStep(5); // Success state confirmed
     } catch (err: any) {
+      console.error('[Registration Submit Error]:', err);
       if (err.status === 409 || err.message?.includes('Duplicate') || err.message?.includes('already enrolled')) {
         setErrorMessage(
           err.message ||
             'Duplicate worker registration detected! This worker already has an enrolled identity in the database.'
         );
+      } else if (err.status === 403 || err.message?.includes('row-level security') || err.message?.includes('policy')) {
+        setErrorMessage(
+          'Authorization Policy Error: RLS policy restriction encountered. Please ensure the Supabase Migration 003 has been run in the Supabase SQL Editor.'
+        );
+      } else if (err.status === 400 || err.message?.includes('required') || err.message?.includes('age')) {
+        setErrorMessage(err.message || 'Validation error: Please verify age, weight, and worker personal details.');
       } else {
-        setErrorMessage(err.message || 'Worker registration failed. Please verify data.');
+        setErrorMessage(err.message || 'Worker registration failed. Please check network connectivity and try again.');
       }
     } finally {
       setIsSubmitting(false);
