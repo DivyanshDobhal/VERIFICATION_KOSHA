@@ -342,6 +342,31 @@ export const ProfileMoreScreen: React.FC = () => {
         </div>
       </div>
 
+      {/* Android APK Private Distribution Portal */}
+      <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+            <Download className="w-4 h-4" />
+            <span>Android APK Private Distribution</span>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">
+            AWS CloudFront CDN
+          </span>
+        </div>
+        <p className="text-[11px] text-slate-400 leading-relaxed">
+          Distribute signed Android release APKs privately without Google Play Store. Features dynamic Walle channel attribution (<code className="text-emerald-400">internal-testing</code>, <code className="text-emerald-400">company</code>, <code className="text-emerald-400">field-workers</code>).
+        </p>
+        <a
+          href="/download"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-slate-950 font-bold text-xs shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+        >
+          <ExternalLink className="w-4 h-4" />
+          <span>Open Private APK Download Portal</span>
+        </a>
+      </div>
+
       {/* Source Code Download Package */}
       <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-2.5">
         <div className="flex items-center justify-between">

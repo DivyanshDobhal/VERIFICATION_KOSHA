@@ -4,6 +4,8 @@
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/download", "destination": "/download/index.html" },
+    { "source": "/download/(.*)", "destination": "/download/index.html" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

@@ -32,6 +32,14 @@ yarn-error.log*
 dist/
 .vite/
 
+# Binaries & Archives
+*.zip
+*.tar.gz
+*.apk
+*.aab
+*.keystore
+*.jks
+
 # Environment Variables & Local Configs
 .env
 .env.local
