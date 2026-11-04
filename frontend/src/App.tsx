@@ -10,6 +10,7 @@ import { MobileStatusBar } from './components/navigation/MobileStatusBar';
 import { MobileHeader } from './components/navigation/MobileHeader';
 import { BottomNavigation } from './components/navigation/BottomNavigation';
 import { NotificationDrawer } from './components/common/NotificationDrawer';
+import { PwaInstallBanner } from './components/common/PwaInstallBanner';
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
 import { StatusBar, Style } from '@capacitor/status-bar';
@@ -114,6 +115,9 @@ const MainAppContent: React.FC = () => {
 
       {/* System Notifications Drawer Modal */}
       <NotificationDrawer />
+
+      {/* PWA Mobile Installation Prompt */}
+      <PwaInstallBanner />
 
       {/* Bottom Tab Bar with elevated central Recognize action */}
       <BottomNavigation />

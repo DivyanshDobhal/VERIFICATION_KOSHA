@@ -24,6 +24,7 @@ import {
   Copy,
   Check,
   ExternalLink,
+  Smartphone,
 } from 'lucide-react';
 import { SUPABASE_URL, checkSupabaseHealth } from '../services/supabase';
 
@@ -339,6 +340,36 @@ export const ProfileMoreScreen: React.FC = () => {
             <span>SQL Editor</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
+        </div>
+      </div>
+
+      {/* Progressive Web App (PWA) Mobile Access */}
+      <div className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs">
+            <Smartphone className="w-4 h-4" />
+            <span>Install Web App on Home Screen (PWA)</span>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">
+            Android · iOS · Desktop
+          </span>
+        </div>
+        <p className="text-[11px] text-slate-400 leading-relaxed">
+          Access Kosha Labs as an installed app on Android and iPhone with no app store downloads. Features standalone full-screen UI and fast biometric workflows.
+        </p>
+        <div className="bg-slate-900/90 rounded-xl p-3 border border-slate-700/70 space-y-2 text-xs text-slate-300">
+          <div className="flex items-center justify-between">
+            <span className="text-slate-400 text-[11px]">Android (Chrome):</span>
+            <span className="text-emerald-400 font-medium text-[11px]">Menu ⋮ &rarr; Install App</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-400 text-[11px]">iPhone (Safari):</span>
+            <span className="text-emerald-400 font-medium text-[11px]">Share &rarr; Add to Home Screen</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-slate-400 text-[11px]">Offline Shell:</span>
+            <span className="text-emerald-400 font-mono text-[11px]">Active (Encrypted Local Storage)</span>
+          </div>
         </div>
       </div>
 
