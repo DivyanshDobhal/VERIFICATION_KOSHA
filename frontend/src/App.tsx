@@ -3,13 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { KoshaProvider, useKosha } from './context/KoshaContext';
 import { DeviceFrameWrapper } from './components/common/DeviceFrameWrapper';
 import { MobileStatusBar } from './components/navigation/MobileStatusBar';
 import { MobileHeader } from './components/navigation/MobileHeader';
 import { BottomNavigation } from './components/navigation/BottomNavigation';
 import { NotificationDrawer } from './components/common/NotificationDrawer';
+import { Capacitor } from '@capacitor/core';
+import { App as CapApp } from '@capacitor/app';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { SplashScreen as CapSplashScreen } from '@capacitor/splash-screen';
 
 // Screens
 import { SplashScreen } from './screens/SplashScreen';
@@ -28,7 +32,39 @@ import { ProfileMoreScreen } from './screens/ProfileMoreScreen';
 
 const MainAppContent: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
-  const { isAuthenticated, currentTab, secondaryScreen } = useKosha();
+  const { isAuthenticated, currentTab, setCurrentTab, secondaryScreen, setSecondaryScreen } = useKosha();
+
+  // Initialize native mobile status bar and capacitor runtime
+  useEffect(() => {
+    if (Capacitor.isNativePlatform()) {
+      try {
+        StatusBar.setStyle({ style: Style.Dark });
+        StatusBar.setBackgroundColor({ color: '#020617' });
+        CapSplashScreen.hide();
+      } catch (e) {
+        // Safe fallback
+      }
+    }
+  }, []);
+
+  // Hardware Back Button Navigation Handler for Android
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+
+    const backListener = CapApp.addListener('backButton', () => {
+      if (secondaryScreen !== null) {
+        setSecondaryScreen(null);
+      } else if (currentTab !== 'home') {
+        setCurrentTab('home');
+      } else {
+        CapApp.exitApp();
+      }
+    });
+
+    return () => {
+      backListener.then((listener) => listener.remove());
+    };
+  }, [secondaryScreen, currentTab, setSecondaryScreen, setCurrentTab]);
 
   if (showSplash) {
     return <SplashScreen onFinish={() => setShowSplash(false)} />;

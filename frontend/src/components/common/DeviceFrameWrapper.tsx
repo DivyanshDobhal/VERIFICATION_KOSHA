@@ -2,6 +2,7 @@ import React from 'react';
 import { useKosha } from '../../context/KoshaContext';
 import { Smartphone, Tablet, Monitor, Sun, Moon, ShieldCheck, Sparkles, Download } from 'lucide-react';
 import { DeviceFrameMode } from '../../types';
+import { Capacitor } from '@capacitor/core';
 
 interface DeviceFrameWrapperProps {
   children: React.ReactNode;
@@ -9,9 +10,18 @@ interface DeviceFrameWrapperProps {
 
 export const DeviceFrameWrapper: React.FC<DeviceFrameWrapperProps> = ({ children }) => {
   const { deviceFrame, setDeviceFrame, isDarkMode, toggleDarkMode, activeSite } = useKosha();
+  const isNative = typeof window !== 'undefined' && Capacitor.isNativePlatform();
 
   // Preset dimensions for testing various mobile device form factors
   const getFrameStyles = (mode: DeviceFrameMode) => {
+    if (isNative) {
+      return {
+        wrapper: 'w-full min-h-screen rounded-none border-none shadow-none',
+        island: false,
+        type: 'fluid',
+      };
+    }
+
     switch (mode) {
       case 'iphone':
         return {
@@ -45,8 +55,9 @@ export const DeviceFrameWrapper: React.FC<DeviceFrameWrapperProps> = ({ children
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-start antialiased selection:bg-emerald-500 selection:text-white">
-      {/* Top Testing Controls Bar (Only visible on wide desktop viewports) */}
-      <aside aria-label="Development testing tools" className="w-full bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 px-4 py-2.5 flex items-center justify-between text-xs shrink-0 z-50">
+      {/* Top Testing Controls Bar (Only visible on wide desktop viewports and non-native web) */}
+      {!isNative && (
+        <aside aria-label="Development testing tools" className="w-full bg-slate-900/90 backdrop-blur-md border-b border-slate-800/80 px-4 py-2.5 flex items-center justify-between text-xs shrink-0 z-50">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -140,6 +151,7 @@ export const DeviceFrameWrapper: React.FC<DeviceFrameWrapperProps> = ({ children
           </button>
         </div>
       </aside>
+      )}
 
       {/* Device Viewport Canvas */}
       <main className="flex-1 w-full flex items-center justify-center p-0 sm:p-4 overflow-hidden">

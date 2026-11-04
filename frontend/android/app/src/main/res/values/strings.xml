@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kosha Labs</string>
+    <string name="title_activity_main">Kosha Labs</string>
+    <string name="package_name">com.koshalabs.workerverification</string>
+    <string name="custom_url_scheme">com.koshalabs.workerverification</string>
+</resources>

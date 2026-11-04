@@ -3,6 +3,8 @@
  * Integrates client scanner acquisition, image upload fallback, and FastAPI/TensorFlow model inference.
  */
 
+import { apiClient } from './api';
+
 export interface MlHealthStatus {
   connected: boolean;
   endpoint: string;
@@ -78,9 +80,15 @@ class BiometricsService {
     localStorage.setItem(this.customEndpointKey, url);
   }
 
+  private getApiUrl(path: string): string {
+    const base = apiClient.getBaseUrl();
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${base}${cleanPath}`;
+  }
+
   public async getHealth(): Promise<MlHealthStatus> {
     try {
-      const res = await fetch('/api/ml/health');
+      const res = await fetch(this.getApiUrl('/ml/health'));
       if (res.ok) {
         return await res.json();
       }
@@ -99,7 +107,7 @@ class BiometricsService {
   public async updateConfig(url: string): Promise<{ success: boolean; message: string }> {
     try {
       this.setSavedEndpoint(url);
-      const res = await fetch('/api/ml/config', {
+      const res = await fetch(this.getApiUrl('/ml/config'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }),
@@ -120,7 +128,7 @@ class BiometricsService {
     workerHint?: string;
     forceDuplicate?: boolean;
   }): Promise<ExtractionResult> {
-    const res = await fetch('/api/ml/extract', {
+    const res = await fetch(this.getApiUrl('/ml/extract'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -145,7 +153,7 @@ class BiometricsService {
     scenarioOverride?: 'MATCH' | 'UNCERTAIN' | 'NO_MATCH';
     targetWorkerId?: string;
   }): Promise<RecognitionResult> {
-    const res = await fetch('/api/biometrics/recognize', {
+    const res = await fetch(this.getApiUrl('/biometrics/recognize'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

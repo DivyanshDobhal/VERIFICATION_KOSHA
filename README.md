@@ -216,3 +216,4 @@ print(result)
 ## License & Credits
 Developed for **Kosha Labs**. All rights reserved.
 Dataset attribution: *SOCOFing (Sokokoto Coventry Fingerprint Database)* by Ruiz-Garcia et al.
+

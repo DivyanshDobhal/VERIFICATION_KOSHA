@@ -14,8 +14,34 @@ class KoshaApiClient {
   private token: string | null = null;
 
   constructor() {
-    this.baseUrl = '/api';
-    this.token = localStorage.getItem('kosha_jwt_token');
+    const storedBaseUrl = typeof window !== 'undefined' ? localStorage.getItem('kosha_api_base_url') : null;
+    const envBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+    if (storedBaseUrl) {
+      this.baseUrl = storedBaseUrl;
+    } else if (envBaseUrl) {
+      this.baseUrl = envBaseUrl;
+    } else if (
+      typeof window !== 'undefined' &&
+      (window.location.protocol === 'capacitor:' ||
+        (window.location.hostname === 'localhost' && window.location.port !== '3000'))
+    ) {
+      this.baseUrl = 'http://localhost:3000/api';
+    } else {
+      this.baseUrl = '/api';
+    }
+    this.token = typeof window !== 'undefined' ? localStorage.getItem('kosha_jwt_token') : null;
+  }
+
+  public setBaseUrl(url: string) {
+    this.baseUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('kosha_api_base_url', this.baseUrl);
+    }
+  }
+
+  public getBaseUrl(): string {
+    return this.baseUrl;
   }
 
   public setToken(token: string | null) {
