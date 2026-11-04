@@ -179,3 +179,4 @@ In the mobile app, backend API endpoints are dynamically resolved so the mobile 
    ML Microservice: http://192.168.1.150:8000
    ```
    Stored securely in native persistent storage via `@capacitor/preferences`.
+

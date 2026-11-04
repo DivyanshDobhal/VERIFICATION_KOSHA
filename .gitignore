@@ -52,3 +52,4 @@ dist/
 *.log
 gallery_store/kosha_gallery.json
 
+.vercel

@@ -52,8 +52,8 @@ const MainAppContent: React.FC = () => {
     if (!Capacitor.isNativePlatform()) return;
 
     const backListener = CapApp.addListener('backButton', () => {
-      if (secondaryScreen !== null) {
-        setSecondaryScreen(null);
+      if (secondaryScreen && secondaryScreen !== 'none') {
+        setSecondaryScreen('none');
       } else if (currentTab !== 'home') {
         setCurrentTab('home');
       } else {
