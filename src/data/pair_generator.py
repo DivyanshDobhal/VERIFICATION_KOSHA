@@ -17,6 +17,10 @@ class FingerprintPairGenerator:
     """
     Generates balanced positive and negative image pairs for Siamese training and validation.
     Guarantees no pair duplicates and respects source-group isolation.
+    Genuine pairs are formed strictly from impressions of the EXACT same anatomical finger
+    (matching source_finger_group), eliminating label noise from cross-finger pairing.
+    Negative pairs incorporate hard negatives (different fingers of the same subject)
+    as well as inter-subject imposter pairs.
     """
 
     def __init__(
@@ -31,21 +35,52 @@ class FingerprintPairGenerator:
         self.augmentor = augmentor
         self.rng = np.random.RandomState(seed)
 
-        # Index metadata by subject and by source group for rapid sampling
+        # Index metadata by source finger group (anatomical finger)
+        self.finger_to_indices: Dict[str, List[int]] = {}
+        # Index metadata by subject ID
         self.subj_to_indices: Dict[int, List[int]] = {}
+        # Index subject ID to list of distinct finger groups
+        self.subj_to_fingers: Dict[int, List[str]] = {}
+
         for idx, row in self.df.iterrows():
             sid = row["subject_id"]
+            if "source_finger_group" in row and pd.notna(row["source_finger_group"]):
+                fg = str(row["source_finger_group"])
+            else:
+                finger_name = row.get("finger_label", row.get("finger", "finger"))
+                fg = f"{sid}_{finger_name}"
+
+            if fg not in self.finger_to_indices:
+                self.finger_to_indices[fg] = []
+            self.finger_to_indices[fg].append(idx)
+
             if sid not in self.subj_to_indices:
                 self.subj_to_indices[sid] = []
             self.subj_to_indices[sid].append(idx)
 
+            if sid not in self.subj_to_fingers:
+                self.subj_to_fingers[sid] = []
+            if fg not in self.subj_to_fingers[sid]:
+                self.subj_to_fingers[sid].append(fg)
+
         self.all_subjects = list(self.subj_to_indices.keys())
+        self.all_fingers = list(self.finger_to_indices.keys())
+        self.multi_impression_fingers = [
+            fg for fg, indices in self.finger_to_indices.items() if len(indices) >= 2
+        ]
+        self.multi_finger_subjects = [
+            sid for sid, fgs in self.subj_to_fingers.items() if len(fgs) >= 2
+        ]
 
     def generate_pairs(
-        self, num_pairs: int = 10000
+        self, num_pairs: int = 10000, hard_negative_ratio: float = 0.5
     ) -> Tuple[List[str], List[str], np.ndarray]:
         """
-        Generates num_pairs // 2 positive pairs and num_pairs // 2 negative pairs.
+        Generates balanced positive and negative pairs.
+        - Positive (Genuine, label 1.0): Sampled strictly from impressions of the SAME finger group.
+        - Negative (Imposter, label 0.0):
+            - hard_negative_ratio of pairs are hard negatives (different fingers of the same subject).
+            - (1 - hard_negative_ratio) of pairs are inter-subject imposters (different subjects).
         Returns:
             img1_paths, img2_paths, labels (1 for Genuine, 0 for Imposter)
         """
@@ -57,16 +92,27 @@ class FingerprintPairGenerator:
         img2_paths: List[str] = []
         labels: List[float] = []
 
-        # 1. Generate Positive (Genuine) pairs: same subject
-        subjs_with_multi = [s for s in self.all_subjects if len(self.subj_to_indices[s]) >= 2]
-        if not subjs_with_multi:
-            raise ValueError("No subjects have at least 2 images to generate positive pairs!")
+        # 1. Generate Positive (Genuine) pairs: strictly SAME finger group
+        if not self.multi_impression_fingers:
+            # Fallback to subject-level if dataset only has single impression per finger
+            candidate_fgs = [s for s in self.all_subjects if len(self.subj_to_indices[s]) >= 2]
+            if not candidate_fgs:
+                raise ValueError("No classes have at least 2 images to generate positive pairs!")
+            use_subj_fallback = True
+        else:
+            candidate_fgs = self.multi_impression_fingers
+            use_subj_fallback = False
 
         attempts = 0
-        while len(labels) < n_pos and attempts < n_pos * 20:
+        while len(labels) < n_pos and attempts < n_pos * 40:
             attempts += 1
-            sid = self.rng.choice(subjs_with_multi)
-            indices = self.subj_to_indices[sid]
+            if use_subj_fallback:
+                sid = self.rng.choice(candidate_fgs)
+                indices = self.subj_to_indices[sid]
+            else:
+                fg = self.rng.choice(candidate_fgs)
+                indices = self.finger_to_indices[fg]
+
             idx1, idx2 = self.rng.choice(indices, size=2, replace=False)
             pair_key = tuple(sorted([idx1, idx2]))
             if pair_key in pairs_set:
@@ -76,9 +122,32 @@ class FingerprintPairGenerator:
             img2_paths.append(self.df.loc[idx2, "file_path"])
             labels.append(1.0)
 
-        # 2. Generate Negative (Imposter) pairs: different subjects
+        # 2. Generate Negative (Imposter) pairs
+        n_hard = int(n_neg * hard_negative_ratio) if self.multi_finger_subjects else 0
+        n_inter = n_neg - n_hard
+
+        # 2a. Hard Negatives: same subject, different fingers
         attempts = 0
-        while len(labels) < num_pairs and attempts < n_neg * 20:
+        initial_hard_len = len(labels)
+        target_hard = initial_hard_len + n_hard
+        while len(labels) < target_hard and attempts < n_neg * 30:
+            attempts += 1
+            sid = self.rng.choice(self.multi_finger_subjects)
+            fgs = self.subj_to_fingers[sid]
+            fg1, fg2 = self.rng.choice(fgs, size=2, replace=False)
+            idx1 = self.rng.choice(self.finger_to_indices[fg1])
+            idx2 = self.rng.choice(self.finger_to_indices[fg2])
+            pair_key = tuple(sorted([idx1, idx2]))
+            if pair_key in pairs_set:
+                continue
+            pairs_set.add(pair_key)
+            img1_paths.append(self.df.loc[idx1, "file_path"])
+            img2_paths.append(self.df.loc[idx2, "file_path"])
+            labels.append(0.0)
+
+        # 2b. Inter-subject Negatives: different subjects
+        attempts = 0
+        while len(labels) < num_pairs and attempts < n_neg * 40:
             attempts += 1
             sid1, sid2 = self.rng.choice(self.all_subjects, size=2, replace=False)
             idx1 = self.rng.choice(self.subj_to_indices[sid1])

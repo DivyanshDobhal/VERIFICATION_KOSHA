@@ -21,7 +21,7 @@ import tensorflow as tf
 from config.settings import CHECKPOINTS_DIR, GALLERY_STORE_DIR
 from src.preprocessing.pipeline import FingerprintPreprocessor
 from src.models.siamese_cnn import build_base_cnn
-from src.service.gallery import BiometricGallery
+from src.service.gallery import BiometricGallery, calculate_confidence
 from src.service.threshold import ThresholdOptimizer
 
 app = FastAPI(
@@ -195,9 +195,11 @@ async def verify_fingerprint(
 
     # Determine decision threshold
     if security_level == "strict":
-        threshold = threshold_opt.thresholds.get("strict_far_01_threshold", 0.0150)
+        threshold = threshold_opt.thresholds.get("strict_far_01_threshold", 0.0979)
+    elif security_level == "eer" or security_level == "balanced":
+        threshold = threshold_opt.thresholds.get("eer_threshold", 0.2477)
     else:
-        threshold = threshold_opt.thresholds.get("standard_far_1_threshold", 0.0200)
+        threshold = threshold_opt.thresholds.get("standard_far_1_threshold", 0.1188)
 
     if secondary_image is not None:
         # Image-to-Image 1:1 verification
@@ -206,7 +208,7 @@ async def verify_fingerprint(
 
         distance = float(np.linalg.norm(emb1 - emb2))
         is_verified = distance <= threshold
-        confidence = float(max(0.0, min(1.0, 1.0 - (distance / (threshold * 2.0)))))
+        confidence = calculate_confidence(distance, threshold)
 
         return {
             "mode": "image_to_image_verification",

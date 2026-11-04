@@ -15,6 +15,19 @@ import time
 import numpy as np
 
 
+def calculate_confidence(distance: float, threshold: float) -> float:
+    """
+    Calculates calibrated biometric match confidence in [0.0, 1.0].
+    Monotonic and smooth: ~99% for identical probe, ~80% at threshold boundary,
+    and drops steeply for non-matches.
+    """
+    if threshold <= 0.0:
+        return 1.0 if distance == 0 else 0.0
+    ratio = distance / threshold
+    score = 1.0 / (1.0 + np.exp(4.0 * (ratio - 1.35)))
+    return float(np.clip(score, 0.0, 1.0))
+
+
 class BiometricGallery:
     """
     Biometric Gallery Database for KOSHA LABS worker verification system.
@@ -149,7 +162,7 @@ class BiometricGallery:
         self,
         worker_id: str,
         probe_embedding: np.ndarray,
-        threshold: float = 0.020,
+        threshold: float = 0.1188,
     ) -> Dict[str, Any]:
         """
         1:1 Verification: Verifies probe embedding against all enrolled sessions for worker_id.
@@ -173,7 +186,7 @@ class BiometricGallery:
         min_dist, matched_finger, matched_session = distances[0]
 
         is_verified = min_dist <= threshold
-        confidence = float(max(0.0, min(1.0, 1.0 - (min_dist / (threshold * 2.0)))))
+        confidence = calculate_confidence(min_dist, threshold)
 
         return {
             "verified": is_verified,
@@ -190,7 +203,7 @@ class BiometricGallery:
         self,
         probe_embedding: np.ndarray,
         top_k: int = 5,
-        threshold: float = 0.0235,
+        threshold: float = 0.1188,
     ) -> Dict[str, Any]:
         """
         1:N Biometric Identification:
@@ -221,7 +234,7 @@ class BiometricGallery:
             seen_workers.add(w_id)
             d = float(dists[idx])
             w_info = self.workers[w_id]
-            conf = float(max(0.0, min(1.0, 1.0 - (d / (threshold * 2.0)))))
+            conf = calculate_confidence(d, threshold)
             candidates.append({
                 "rank": len(candidates) + 1,
                 "worker_id": w_id,

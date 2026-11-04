@@ -47,12 +47,21 @@ def main():
     subj1 = subjs[0]
     subj2 = subjs[1]
 
-    subj1_imgs = df[df["subject_id"] == subj1]["file_path"].tolist()
-    subj2_imgs = df[df["subject_id"] == subj2]["file_path"].tolist()
+    # Alice's primary finger (multiple impressions)
+    alice_fgs = df[df["subject_id"] == subj1]["source_finger_group"].unique()
+    alice_primary_fg = alice_fgs[0]
+    alice_primary_imgs = df[df["source_finger_group"] == alice_primary_fg]["file_path"].tolist()
 
-    img1_sess1 = subj1_imgs[0]
-    img1_sess2 = subj1_imgs[1]
-    img1_probe = subj1_imgs[2] if len(subj1_imgs) > 2 else subj1_imgs[0]
+    img1_sess1 = alice_primary_imgs[0]
+    img1_probe = alice_primary_imgs[1] if len(alice_primary_imgs) > 1 else alice_primary_imgs[0]
+
+    # Alice's secondary finger for multi-session enrollment
+    alice_sec_fg = alice_fgs[1] if len(alice_fgs) > 1 else alice_primary_fg
+    alice_sec_imgs = df[df["source_finger_group"] == alice_sec_fg]["file_path"].tolist()
+    img1_sess2 = alice_sec_imgs[0]
+
+    # Bob's finger (imposter)
+    subj2_imgs = df[df["subject_id"] == subj2]["file_path"].tolist()
     img2_sess1 = subj2_imgs[0]
 
     client = TestClient(app)
@@ -142,6 +151,7 @@ def main():
     assert resp.status_code == 200, f"Verification request failed: {resp.text}"
     verif_data = resp.json()
     print(f"   Genuine Match Result: Verified={verif_data['verified']}, Distance={verif_data['distance']:.4f}, Confidence={verif_data['confidence_score']*100:.1f}%")
+    assert verif_data["verified"] is True, f"Genuine match was falsely rejected! Distance: {verif_data['distance']}, Threshold: {verif_data['threshold']}"
 
     # Imposter test: Verify Bob's fingerprint against Alice's ID (WRK-1001)
     with open(img2_sess1, "rb") as f:
@@ -156,7 +166,7 @@ def main():
 
     # 7. 1:1 Image-to-Image Verification
     print("\n7. Testing POST /verify (1:1 Image-to-Image Direct Verification)...")
-    with open(img1_sess1, "rb") as f1, open(img1_sess2, "rb") as f2:
+    with open(img1_sess1, "rb") as f1, open(img1_probe, "rb") as f2:
         resp = client.post(
             "/verify",
             data={"security_level": "standard"},
@@ -168,6 +178,7 @@ def main():
     assert resp.status_code == 200
     img2img = resp.json()
     print(f"   Image-to-Image Result: Verified={img2img['verified']}, Distance={img2img['euclidean_distance']:.4f}, Decision={img2img['decision']}")
+    assert img2img["verified"] is True, f"Image-to-image genuine match falsely rejected! Distance: {img2img['euclidean_distance']}"
 
     # 8. 1:N Biometric Identification
     print("\n8. Testing POST /identify (1:N Gallery Search)...")

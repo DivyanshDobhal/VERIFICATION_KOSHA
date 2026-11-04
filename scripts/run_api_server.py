@@ -2,6 +2,12 @@
 Uvicorn launcher script for KOSHA LABS Biometric Fingerprint REST API.
 """
 
+import os
+os.environ["OMP_NUM_THREADS"] = "2"
+os.environ["TF_NUM_INTRAOP_THREADS"] = "2"
+os.environ["TF_NUM_INTEROP_THREADS"] = "2"
+
+import tensorflow as tf
 import sys
 from pathlib import Path
 import uvicorn
@@ -20,4 +26,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
