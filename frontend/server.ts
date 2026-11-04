@@ -917,7 +917,7 @@ app.post('/api/workers', async (req: Request, res: Response) => {
       full_name: cleanName,
       age: Number(age),
       weight: Number(weight),
-      gender: safeGender === 'male' ? 'Male' : safeGender === 'female' ? 'Female' : 'Other',
+      gender: safeGender,
       contact_number: cleanContact || '+91 98000 00000',
       emergency_contact: emergencyContact || 'Contractor Office',
       blood_group: bloodGroup || 'B+',
