@@ -1,0 +1,38 @@
+{
+  "num_pairs_evaluated": 400,
+  "performance": {
+    "inference_time_seconds": 5.625575065612793,
+    "latency_ms_per_pair": 14.063937664031982,
+    "throughput_pairs_per_sec": 71.10384188899417,
+    "total_parameters": 488448,
+    "trainable_parameters": 487488
+  },
+  "biometric_verification": {
+    "eer": 0.08249999999999999,
+    "eer_threshold_distance": 0.023454660549759865,
+    "roc_auc": 0.9707749999999999,
+    "pr_auc": 0.9713671421260724,
+    "gar_at_eer": 0.9175,
+    "tar_at_far_0_1_percent": 0.54,
+    "tar_at_far_1_percent": 0.655,
+    "tar_at_far_5_percent": 0.83
+  },
+  "classification": {
+    "threshold": 0.023454660549759865,
+    "accuracy": 0.9175,
+    "precision": 0.9195979899497487,
+    "recall": 0.915,
+    "sensitivity": 0.915,
+    "specificity": 0.92,
+    "f1_score": 0.9172932330827067,
+    "balanced_accuracy": 0.9175,
+    "matthews_corrcoef": 0.8350104376957072,
+    "cohen_kappa": 0.835,
+    "confusion_matrix": {
+      "true_negatives": 184,
+      "false_positives": 16,
+      "false_negatives": 17,
+      "true_positives": 183
+    }
+  }
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "model_name": "Siamese CNN (Custom)",
+    "accuracy": 0.9175,
+    "eer": 0.08249999999999999,
+    "roc_auc": 0.9707749999999999,
+    "tar_at_1_percent_far": 0.655,
+    "latency_ms": 13.456107378005981,
+    "throughput_pairs_sec": 74.31569709636094,
+    "parameters": 488448
+  },
+  {
+    "model_name": "ResNet50 Siamese",
+    "accuracy": 0.93,
+    "eer": 0.06999999999999998,
+    "roc_auc": 0.97905,
+    "tar_at_1_percent_far": 0.775,
+    "latency_ms": 67.43209183216095,
+    "throughput_pairs_sec": 14.829734223417072,
+    "parameters": 24145158
+  },
+  {
+    "model_name": "MobileNetV3 Siamese",
+    "accuracy": 0.5,
+    "eer": 0.5,
+    "roc_auc": 0.5,
+    "tar_at_1_percent_far": 0.0,
+    "latency_ms": 7.3851776123046875,
+    "throughput_pairs_sec": 135.40635750369321,
+    "parameters": 1029494
+  },
+  {
+    "model_name": "HOG Feature Baseline",
+    "accuracy": 0.98,
+    "eer": 0.02000000000000001,
+    "roc_auc": 0.9986499999999999,
+    "tar_at_1_percent_far": 0.975,
+    "latency_ms": 1.2130552530288696,
+    "throughput_pairs_sec": 824.3647579144533,
+    "parameters": 0
+  }
+]

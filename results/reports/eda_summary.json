@@ -1,0 +1,94 @@
+{
+  "total_images": 55270,
+  "unique_subjects": 600,
+  "unique_source_finger_groups": 6000,
+  "num_original_images": 6000,
+  "num_altered_images": 49270,
+  "subject_distribution": {
+    "min": 61,
+    "max": 100,
+    "mean": 92.11666666666666,
+    "std": 5.551373866762165,
+    "median": 94.0
+  },
+  "finger_distribution": {
+    "Left_thumb_finger": 5790,
+    "Left_ring_finger": 5612,
+    "Left_middle_finger": 5606,
+    "Left_index_finger": 5542,
+    "Right_thumb_finger": 5538,
+    "Left_little_finger": 5488,
+    "Right_ring_finger": 5486,
+    "Right_little_finger": 5443,
+    "Right_middle_finger": 5431,
+    "Right_index_finger": 5334
+  },
+  "finger_category_distribution": {
+    "thumb": 11328,
+    "ring": 11098,
+    "middle": 11037,
+    "little": 10931,
+    "index": 10876
+  },
+  "hand_distribution": {
+    "Left": 28038,
+    "Right": 27232
+  },
+  "gender_distribution": {
+    "M": 44203,
+    "F": 11067
+  },
+  "alteration_category_distribution": {
+    "Obliteration": 17854,
+    "Central Rotation": 16439,
+    "Z-cut": 14977
+  },
+  "difficulty_distribution": {
+    "Easy": 17931,
+    "Medium": 17067,
+    "Hard": 14272
+  },
+  "missing_original_analysis": {
+    "expected_originals": 6000,
+    "actual_originals": 6000,
+    "missing_originals": 0
+  },
+  "corrupted_images_detected": 0,
+  "corrupted_files_sample": [],
+  "dimension_stats": {
+    "unique_resolutions": [
+      "103x96",
+      "298x241"
+    ],
+    "height_mean": 104.1375,
+    "width_mean": 96.84583333333333
+  },
+  "intensity_and_quality_stats": {
+    "mean_pixel_intensity": 145.49499242315497,
+    "std_pixel_intensity": 99.91954987342181,
+    "mean_sharpness_laplacian": 48981.40710164705,
+    "mean_entropy": 5.494204102008623
+  },
+  "quality_by_difficulty": {
+    "Easy": {
+      "sharpness_mean": 52258.42166020835,
+      "contrast_mean": 101.79549066626436,
+      "entropy_mean": 5.315588929206273
+    },
+    "Hard": {
+      "sharpness_mean": 43082.32961719451,
+      "contrast_mean": 97.17755937412393,
+      "entropy_mean": 5.772076279917523
+    },
+    "Medium": {
+      "sharpness_mean": 47663.30691203206,
+      "contrast_mean": 99.39850755154555,
+      "entropy_mean": 5.551123235437441
+    },
+    "Original": {
+      "sharpness_mean": 58771.12046656914,
+      "contrast_mean": 103.04615747082208,
+      "entropy_mean": 5.1272273847757495
+    }
+  }
+}

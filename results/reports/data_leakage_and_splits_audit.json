@@ -1,0 +1,48 @@
+{
+  "protocol_a_enrolled_identity": {
+    "protocol": "Protocol A (Enrolled-Identity)",
+    "train_images": 38744,
+    "val_images": 11013,
+    "test_images": 5513,
+    "train_subjects": 600,
+    "val_subjects": 600,
+    "test_subjects": 600,
+    "train_source_groups": 4200,
+    "val_source_groups": 1200,
+    "test_source_groups": 600,
+    "source_group_leakage": {
+      "train_val_overlap": 0,
+      "train_test_overlap": 0,
+      "val_test_overlap": 0
+    },
+    "subject_leakage": {
+      "train_val_overlap": 600,
+      "train_test_overlap": 600,
+      "val_test_overlap": 600
+    },
+    "is_valid": true
+  },
+  "protocol_b_subject_disjoint": {
+    "protocol": "Protocol B (Subject-Disjoint)",
+    "train_images": 38656,
+    "val_images": 8318,
+    "test_images": 8296,
+    "train_subjects": 420,
+    "val_subjects": 90,
+    "test_subjects": 90,
+    "train_source_groups": 4200,
+    "val_source_groups": 900,
+    "test_source_groups": 900,
+    "source_group_leakage": {
+      "train_val_overlap": 0,
+      "train_test_overlap": 0,
+      "val_test_overlap": 0
+    },
+    "subject_leakage": {
+      "train_val_overlap": 0,
+      "train_test_overlap": 0,
+      "val_test_overlap": 0
+    },
+    "is_valid": true
+  }
+}

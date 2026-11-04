@@ -1,0 +1,7 @@
+{
+  "eer_threshold": 0.0235,
+  "strict_far_01_threshold": 0.0150,
+  "standard_far_1_threshold": 0.0200,
+  "duplicate_prevention_threshold": 0.0200
+}
+

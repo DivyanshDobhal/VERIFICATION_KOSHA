@@ -1,0 +1,50 @@
+services:
+  # --------------------------------------------------------------------------
+  # 1. KOSHA LABS – Full-Stack Web & Mobile App (React + Express)
+  # --------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kosha-labs-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ML_SERVICE_URL=http://ml-service:8000
+      - SUPABASE_URL=${SUPABASE_URL:-https://bhnrrosrjednzctdirkn.supabase.co}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-sb_publishable_UEgdn1EB40terFHDApHIYQ_tr3ZQATH}
+      - SUPABASE_SECRET_KEY=${SUPABASE_SECRET_KEY:-}
+    depends_on:
+      ml-service:
+        condition: service_healthy
+    networks:
+      - kosha-network
+
+  # --------------------------------------------------------------------------
+  # 2. ML SERVICE – Siamese CNN Biometric Microservice (FastAPI + TensorFlow)
+  # --------------------------------------------------------------------------
+  ml-service:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: kosha-ml-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - MODEL_PATH=/models
+      - KOSHA_MODEL_DIR=/models
+    volumes:
+      # Mount the trained ML model directory from host
+      - ${KOSHA_MODEL_DIR:-/Users/divyanshdobhal/Desktop/PROJECTS/KOSHA_VERIFICATION}:/models:ro
+    networks:
+      - kosha-network
+
+networks:
+  kosha-network:
+    driver: bridge

@@ -1,0 +1,113 @@
+{
+  "num_trials": 5,
+  "best_trial": {
+    "trial": 5,
+    "config_name": "Margin0.8_RMSprop",
+    "params": {
+      "name": "Margin0.8_RMSprop",
+      "lr": 0.0001,
+      "margin": 0.8,
+      "emb_dim": 128,
+      "dropout": 0.3,
+      "batch_size": 32,
+      "opt": "rmsprop"
+    },
+    "val_eer": 0.35333333333333333,
+    "val_roc_auc": 0.6721777777777777,
+    "val_accuracy": 0.6466666666666666,
+    "val_tar_at_1_percent_far": 0.21333333333333335,
+    "trial_time_seconds": 36.38618993759155
+  },
+  "all_trials": [
+    {
+      "trial": 5,
+      "config_name": "Margin0.8_RMSprop",
+      "params": {
+        "name": "Margin0.8_RMSprop",
+        "lr": 0.0001,
+        "margin": 0.8,
+        "emb_dim": 128,
+        "dropout": 0.3,
+        "batch_size": 32,
+        "opt": "rmsprop"
+      },
+      "val_eer": 0.35333333333333333,
+      "val_roc_auc": 0.6721777777777777,
+      "val_accuracy": 0.6466666666666666,
+      "val_tar_at_1_percent_far": 0.21333333333333335,
+      "trial_time_seconds": 36.38618993759155
+    },
+    {
+      "trial": 3,
+      "config_name": "Compact_Emb64",
+      "params": {
+        "name": "Compact_Emb64",
+        "lr": 0.0001,
+        "margin": 1.0,
+        "emb_dim": 64,
+        "dropout": 0.2,
+        "batch_size": 32,
+        "opt": "adam"
+      },
+      "val_eer": 0.3866666666666667,
+      "val_roc_auc": 0.6426666666666667,
+      "val_accuracy": 0.6133333333333333,
+      "val_tar_at_1_percent_far": 0.17333333333333334,
+      "trial_time_seconds": 37.24697995185852
+    },
+    {
+      "trial": 4,
+      "config_name": "Deep_Emb256_Drop0.4",
+      "params": {
+        "name": "Deep_Emb256_Drop0.4",
+        "lr": 0.0001,
+        "margin": 1.0,
+        "emb_dim": 256,
+        "dropout": 0.4,
+        "batch_size": 32,
+        "opt": "adam"
+      },
+      "val_eer": 0.42666666666666664,
+      "val_roc_auc": 0.6341333333333332,
+      "val_accuracy": 0.5733333333333334,
+      "val_tar_at_1_percent_far": 0.28,
+      "trial_time_seconds": 36.63934397697449
+    },
+    {
+      "trial": 1,
+      "config_name": "Baseline_Default",
+      "params": {
+        "name": "Baseline_Default",
+        "lr": 0.0001,
+        "margin": 1.0,
+        "emb_dim": 128,
+        "dropout": 0.3,
+        "batch_size": 32,
+        "opt": "adam"
+      },
+      "val_eer": 0.4666666666666667,
+      "val_roc_auc": 0.6236444444444444,
+      "val_accuracy": 0.5333333333333333,
+      "val_tar_at_1_percent_far": 0.17333333333333334,
+      "trial_time_seconds": 39.12351894378662
+    },
+    {
+      "trial": 2,
+      "config_name": "Higher_LR_Margin1.2",
+      "params": {
+        "name": "Higher_LR_Margin1.2",
+        "lr": 0.0003,
+        "margin": 1.2,
+        "emb_dim": 128,
+        "dropout": 0.3,
+        "batch_size": 32,
+        "opt": "adam"
+      },
+      "val_eer": 0.47333333333333333,
+      "val_roc_auc": 0.5925333333333334,
+      "val_accuracy": 0.5266666666666666,
+      "val_tar_at_1_percent_far": 0.10666666666666667,
+      "trial_time_seconds": 36.684250831604004
+    }
+  ]
+}

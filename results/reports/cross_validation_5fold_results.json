@@ -1,0 +1,168 @@
+{
+  "n_splits": 5,
+  "fold_results": [
+    {
+      "fold": 1,
+      "best_epoch": 1,
+      "best_val_loss": 0.4733687937259674,
+      "training_time_seconds": 48.26501989364624,
+      "checkpoint_path": "/Users/divyanshdobhal/Desktop/PROJECTS/KOSHA_VERIFICATION/checkpoints/fold_1_best_siamese_model.weights.h5",
+      "accuracy": 0.76,
+      "precision": 0.76,
+      "recall": 0.76,
+      "f1_score": 0.76,
+      "specificity": 0.76,
+      "mcc": 0.52,
+      "eer": 0.24,
+      "eer_threshold": 0.01746884174644947,
+      "roc_auc": 0.8382222222222222,
+      "pr_auc": 0.8726881872310273,
+      "tar_at_far_1_percent": 0.30666666666666664,
+      "latency_ms": 14.940338134765625
+    },
+    {
+      "fold": 2,
+      "best_epoch": 1,
+      "best_val_loss": 0.45377203822135925,
+      "training_time_seconds": 47.8543918132782,
+      "checkpoint_path": "/Users/divyanshdobhal/Desktop/PROJECTS/KOSHA_VERIFICATION/checkpoints/fold_2_best_siamese_model.weights.h5",
+      "accuracy": 0.8,
+      "precision": 0.8,
+      "recall": 0.8,
+      "f1_score": 0.8,
+      "specificity": 0.8,
+      "mcc": 0.6,
+      "eer": 0.19999999999999998,
+      "eer_threshold": 0.029060304164886475,
+      "roc_auc": 0.8878222222222222,
+      "pr_auc": 0.9188960628466867,
+      "tar_at_far_1_percent": 0.5866666666666667,
+      "latency_ms": 15.425507227579754
+    },
+    {
+      "fold": 3,
+      "best_epoch": 1,
+      "best_val_loss": 0.4698507785797119,
+      "training_time_seconds": 48.604597091674805,
+      "checkpoint_path": "/Users/divyanshdobhal/Desktop/PROJECTS/KOSHA_VERIFICATION/checkpoints/fold_3_best_siamese_model.weights.h5",
+      "accuracy": 0.74,
+      "precision": 0.7432432432432432,
+      "recall": 0.7333333333333333,
+      "f1_score": 0.738255033557047,
+      "specificity": 0.7466666666666667,
+      "mcc": 0.48004267235639847,
+      "eer": 0.26,
+      "eer_threshold": 0.021939337253570557,
+      "roc_auc": 0.7857777777777778,
+      "pr_auc": 0.8574085580725259,
+      "tar_at_far_1_percent": 0.6,
+      "latency_ms": 16.26374085744222
+    },
+    {
+      "fold": 4,
+      "best_epoch": 1,
+      "best_val_loss": 0.46076980233192444,
+      "training_time_seconds": 47.81114411354065,
+      "checkpoint_path": "/Users/divyanshdobhal/Desktop/PROJECTS/KOSHA_VERIFICATION/checkpoints/fold_4_best_siamese_model.weights.h5",
+      "accuracy": 0.7066666666666667,
+      "precision": 0.7012987012987013,
+      "recall": 0.72,
+      "f1_score": 0.7105263157894737,
+      "specificity": 0.6933333333333334,
+      "mcc": 0.41348037472301963,
+      "eer": 0.29333333333333333,
+      "eer_threshold": 0.027718806639313698,
+      "roc_auc": 0.7967999999999998,
+      "pr_auc": 0.8628115076921967,
+      "tar_at_far_1_percent": 0.5066666666666667,
+      "latency_ms": 16.980600357055664
+    },
+    {
+      "fold": 5,
+      "best_epoch": 1,
+      "best_val_loss": 0.45981404185295105,
+      "training_time_seconds": 48.06767201423645,
+      "checkpoint_path": "/Users/divyanshdobhal/Desktop/PROJECTS/KOSHA_VERIFICATION/checkpoints/fold_5_best_siamese_model.weights.h5",
+      "accuracy": 0.7066666666666667,
+      "precision": 0.7066666666666667,
+      "recall": 0.7066666666666667,
+      "f1_score": 0.7066666666666667,
+      "specificity": 0.7066666666666667,
+      "mcc": 0.41333333333333333,
+      "eer": 0.29333333333333333,
+      "eer_threshold": 0.02729935385286808,
+      "roc_auc": 0.8286222222222221,
+      "pr_auc": 0.8665861811448002,
+      "tar_at_far_1_percent": 0.4533333333333333,
+      "latency_ms": 14.256366093953451
+    }
+  ],
+  "aggregate_statistics_with_95_ci": {
+    "accuracy": {
+      "mean": 0.7426666666666666,
+      "std": 0.03932768321000702,
+      "ci_lower": 0.7081944324290467,
+      "ci_upper": 0.7771389009042865
+    },
+    "precision": {
+      "mean": 0.7422417222417222,
+      "std": 0.04060262819685427,
+      "ci_lower": 0.7066519494501025,
+      "ci_upper": 0.777831495033342
+    },
+    "recall": {
+      "mean": 0.744,
+      "std": 0.03699849846803098,
+      "ci_lower": 0.7115693862051439,
+      "ci_upper": 0.7764306137948561
+    },
+    "f1_score": {
+      "mean": 0.7430896032026374,
+      "std": 0.038519883956832084,
+      "ci_lower": 0.7093254362295884,
+      "ci_upper": 0.7768537701756864
+    },
+    "specificity": {
+      "mean": 0.7413333333333333,
+      "std": 0.042791484095683244,
+      "ci_lower": 0.7038249437532822,
+      "ci_upper": 0.7788417229133844
+    },
+    "mcc": {
+      "mean": 0.4853712760825504,
+      "std": 0.07862101147051824,
+      "ci_lower": 0.41645692104826554,
+      "ci_upper": 0.5542856311168352
+    },
+    "eer": {
+      "mean": 0.2573333333333333,
+      "std": 0.03932768321000701,
+      "ci_lower": 0.22286109909571342,
+      "ci_upper": 0.2918055675709532
+    },
+    "roc_auc": {
+      "mean": 0.8274488888888888,
+      "std": 0.04011924940523572,
+      "ci_lower": 0.7922828162893497,
+      "ci_upper": 0.8626149614884279
+    },
+    "pr_auc": {
+      "mean": 0.8756780993974473,
+      "std": 0.02479274207962961,
+      "ci_lower": 0.8539463027950882,
+      "ci_upper": 0.8974098959998065
+    },
+    "tar_at_far_1_percent": {
+      "mean": 0.49066666666666664,
+      "std": 0.11903314197688343,
+      "ci_lower": 0.38632951742867416,
+      "ci_upper": 0.5950038159046591
+    },
+    "best_val_loss": {
+      "mean": 0.4635150909423828,
+      "std": 0.007959237504729462,
+      "ci_lower": 0.45653851166740356,
+      "ci_upper": 0.47049167021736205
+    }
+  }
+}

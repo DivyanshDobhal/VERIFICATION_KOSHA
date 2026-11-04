@@ -1,0 +1,6 @@
+{
+  "name": "KOSHA LABS – Intelligent Worker Identity Management System",
+  "description": "Mobile-first biometric workforce management system preventing duplicate worker registrations through permanent Worker IDs and multi-session tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
